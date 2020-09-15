@@ -1,6 +1,6 @@
 {
     "name": "interactiveplus/lib-i18n",
-    "description": "Library for Internationalization Support",
+    "description": "A Library for Internationalization Support in PHP",
     "type": "library",
     "license": "MIT",
     "require":{

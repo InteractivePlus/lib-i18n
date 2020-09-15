@@ -1,0 +1,23 @@
+{
+    "name": "interactiveplus/lib-i18n",
+    "description": "Library for Internationalization Support",
+    "type": "library",
+    "license": "MIT",
+    "require":{
+        "php": ">=7.1.0",
+        "ext-intl": ">=2.0.0"
+    },
+    "require-dev":{
+        "phpunit/phpunit": "^9"
+    },
+    "autoload":{
+        "psr-4":{
+            "LibI18N\\": "src/"
+        }
+    },
+    "autoload-dev":{
+        "psr-4":{
+            "LibI18NTest\\": "test/"
+        }
+    }
+}

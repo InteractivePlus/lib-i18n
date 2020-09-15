@@ -1,19 +1,72 @@
 <?php
 namespace LibI18N;
 
+use COM;
+
 class Locale{
     public static function isValidLocale(string $locale) : bool{
-        if(!in_array($locale,self::allLocales,true)){
-            return false;
+        $foundLocale = false;
+        foreach(self::allLocales as $singleLocale){
+            if(self::isLeftLocaleClose($locale,$singleLocale)){
+                $foundLocale = true;
+            break;
+            }
         }
-        return true;
+        return $foundLocale;
     }
     public static function fixLocale(string $locale, string $defaultLocale) : string{
         if(!self::isValidLocale($locale)){
-            return $defaultLocale;
+            //try to find an optimal local
+            return self::getBestFitLocale($locale,$defaultLocale);
         }else{
             return $locale;
         }
+    }
+    public static function getBestFitLocale(string $locale, string $default) : string{
+        $optimalLocal = $default;
+        $optimalLocalFitNum = 0;
+        $parsedLocale = locale_parse($locale);
+
+        $compareKeys = ['language', 'script', 'region'];
+        foreach(self::allLocales as $singleLocale){
+            $parsedSingleLocale = locale_parse($singleLocale);
+            $currentFitNum = 0;
+            foreach($compareKeys as $singleKey){
+                if($parsedLocale[$singleKey] === $parsedSingleLocale[$singleKey]){
+                    $currentFitNum++;
+                }
+            }
+            if($currentFitNum > $optimalLocalFitNum){
+                $optimalLocal = $singleLocale;
+                $optimalLocalFitNum = $currentFitNum;
+            }
+        }
+        return $optimalLocal;
+    }
+    public static function isLocaleCloseEnough(string $left, string $right) : bool{
+        $parsedLeft = locale_parse($left);
+        $parsedRight = locale_parse($right);
+        $compareKeys = ['language', 'script', 'region'];
+        foreach($compareKeys as $singleKey){
+            if(!Comparison::bothEqualOrEmpty($parsedLeft[$singleKey],$parsedRight[$singleKey])){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static function isLeftLocaleClose(string $left, string $right) : bool{
+        $parsedLeft = locale_parse($left);
+        $parsedRight = locale_parse($right);
+        $compareKeys = ['language', 'script', 'region'];
+        foreach($compareKeys as $singleKey){
+            if(!Comparison::leftEqualOrEmpty($parsedLeft[$singleKey],$parsedRight[$singleKey])){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static function isRightLocaleClose(string $left, string $right) : bool{
+        return self::isLeftLocaleClose($right,$left);
     }
     public static function getDisplayName(string $locale, string $in_Locale = 'en-US') : string{
         return locale_get_display_name($locale,$in_Locale);

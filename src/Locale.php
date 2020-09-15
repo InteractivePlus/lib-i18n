@@ -8,7 +8,7 @@ class Locale{
         }
         return true;
     }
-    public static function fixRegion(string $locale, string $defaultLocale) : string{
+    public static function fixLocale(string $locale, string $defaultLocale) : string{
         if(!self::isValidLocale($locale)){
             return $defaultLocale;
         }else{

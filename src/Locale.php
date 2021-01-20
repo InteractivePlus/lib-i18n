@@ -26,7 +26,9 @@ class Locale{
         $optimalLocal = $default;
         $optimalLocalFitNum = 0;
         $parsedLocale = locale_parse($locale);
-
+        if(empty($parsedLocale)){
+            return self::LOCALE_en_US;
+        }
         $compareKeys = ['language', 'script', 'region'];
         foreach(self::allLocales as $singleLocale){
             $parsedSingleLocale = locale_parse($singleLocale);
@@ -47,6 +49,9 @@ class Locale{
         $parsedLeft = locale_parse($left);
         $parsedRight = locale_parse($right);
         $compareKeys = ['language', 'script', 'region'];
+        if(empty($parsedLeft) || empty($parsedRight)){
+            return false;
+        }
         foreach($compareKeys as $singleKey){
             if(!Comparison::bothEqualOrEmpty($parsedLeft[$singleKey],$parsedRight[$singleKey])){
                 return false;
@@ -58,6 +63,9 @@ class Locale{
         $parsedLeft = locale_parse($left);
         $parsedRight = locale_parse($right);
         $compareKeys = ['language', 'script', 'region'];
+        if(empty($parsedLeft) || empty($parsedRight)){
+            return false;
+        }
         foreach($compareKeys as $singleKey){
             if(!Comparison::leftEqualOrEmpty($parsedLeft[$singleKey],$parsedRight[$singleKey])){
                 return false;

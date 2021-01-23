@@ -1,5 +1,5 @@
 <?php
-namespace LibI18N;
+namespace InteractivePlus\LibI18N;
 class Comparison{
     public static function bothEqualOrEmpty($left, $right) : bool{
         if($left === $right || empty($left) || empty($right)){

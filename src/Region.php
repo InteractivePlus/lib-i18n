@@ -1,5 +1,5 @@
 <?php
-namespace LibI18N;
+namespace InteractivePlus\LibI18N;
 class Region{
     public static function isValidRegion(string $region) : bool{
         $region = strtoupper($region);

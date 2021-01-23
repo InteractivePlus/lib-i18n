@@ -1,5 +1,5 @@
 <?php
-namespace LibI18N;
+namespace InteractivePlus\LibI18N;
 
 use COM;
 
@@ -31,6 +31,29 @@ class Locale{
         }
         $compareKeys = ['language', 'script', 'region'];
         foreach(self::allLocales as $singleLocale){
+            $parsedSingleLocale = locale_parse($singleLocale);
+            $currentFitNum = 0;
+            foreach($compareKeys as $singleKey){
+                if($parsedLocale[$singleKey] === $parsedSingleLocale[$singleKey]){
+                    $currentFitNum++;
+                }
+            }
+            if($currentFitNum > $optimalLocalFitNum){
+                $optimalLocal = $singleLocale;
+                $optimalLocalFitNum = $currentFitNum;
+            }
+        }
+        return $optimalLocal;
+    }
+    public static function getBestFitLocaleInLocaleArr(string $locale, string $default, array $localeArr) : string{
+        $optimalLocal = $default;
+        $optimalLocalFitNum = 0;
+        $parsedLocale = locale_parse($locale);
+        if(empty($parsedLocale)){
+            return self::LOCALE_en_US;
+        }
+        $compareKeys = ['language', 'script', 'region'];
+        foreach($localeArr as $singleLocale){
             $parsedSingleLocale = locale_parse($singleLocale);
             $currentFitNum = 0;
             foreach($compareKeys as $singleKey){

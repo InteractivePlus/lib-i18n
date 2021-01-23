@@ -12,12 +12,12 @@
     },
     "autoload":{
         "psr-4":{
-            "LibI18N\\": "src/"
+            "InteractivePlus\\LibI18N\\": "src/"
         }
     },
     "autoload-dev":{
         "psr-4":{
-            "LibI18NTest\\": "test/"
+            "InteractivePlus\\LibI18NTest\\": "test/"
         }
     }
 }
